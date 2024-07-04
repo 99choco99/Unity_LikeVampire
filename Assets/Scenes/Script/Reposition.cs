@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Reposition : MonoBehaviour
 {
+    Collider2D coll;
 
+    private void Awake()
+    {
+        coll = GetComponent<Collider2D>();
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Area"))
@@ -17,7 +22,6 @@ public class Reposition : MonoBehaviour
             Vector3 playerDir = GameManager.instance.player.inputVec;
             float dirX = playerDir.x < 0 ? -1 : 1;
             float dirY = playerDir.y < 0 ? -1 : 1;
-
 
             switch (transform.tag)
             {
@@ -32,6 +36,10 @@ public class Reposition : MonoBehaviour
                     }
                     break;
                 case "Enemy":
+                    if (coll.enabled)
+                    {
+                        transform.Translate(playerDir * 25 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f));
+                    }
                     break;
 
             }
