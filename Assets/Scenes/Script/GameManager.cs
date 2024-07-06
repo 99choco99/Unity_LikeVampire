@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
 
     public float gameTime;
-    public float maxGameTime = 2 * 10f;
+    public float maxGameTime = 6 * 60f;
 
     private void Awake()
     {
@@ -21,9 +21,5 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         gameTime += Time.deltaTime;
-        if (gameTime > maxGameTime)
-        {
-            gameTime = maxGameTime;
-        }
     }
 }

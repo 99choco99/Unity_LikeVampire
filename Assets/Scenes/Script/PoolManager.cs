@@ -32,7 +32,7 @@ public class PoolManager : MonoBehaviour
             // 발견 시 select에 할당
             if (!item.activeSelf) { 
                 select = item;
-                select.SetActive(false);
+                select.SetActive(true);
                 break;
             }
         }
