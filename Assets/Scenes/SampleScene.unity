@@ -14146,7 +14146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   prefabId: 1
-  damage: 15
+  damage: 5
   count: 3
   speed: 0
 --- !u!1 &1691717838
@@ -14581,7 +14581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   prefabId: 2
-  damage: 15
+  damage: 5
   count: 3
   speed: 0
 --- !u!1 &2114389449
