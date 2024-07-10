@@ -43,4 +43,17 @@ public class Player : MonoBehaviour
             spriter.flipX = inputVec.x < 0;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            GameManager.instance.health -= 1;
+
+            if(GameManager.instance.health < 0)
+            {
+                Debug.Log("°ÔÀÓ ³¡");
+            }
+        }
+    }
 }

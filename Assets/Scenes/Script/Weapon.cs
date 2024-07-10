@@ -31,6 +31,7 @@ public class Weapon : MonoBehaviour
         {
             Batch();
         }
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
 
@@ -89,6 +90,7 @@ public class Weapon : MonoBehaviour
                 break;
 
         }
+        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
     }
 
 
