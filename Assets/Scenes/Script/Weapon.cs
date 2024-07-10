@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -16,18 +18,14 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>();
+        player = GameManager.instance.player;
     }
 
-    private void Start()
-    {
-        Init();
-    }
 
     public void LevelUp(float damage, int count)
     {
         this.damage = damage;
-        this.count = count;
+        this.count += count;
 
         if(id == 0)
         {
@@ -56,8 +54,28 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        //Basic set
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
+
+        //Property Set
+        id = data.itemId;
+        damage = data.baseDamage;
+        count = data.baseCount;
+
+        for(int i = 0; i< GameManager.instance.pool.prefabs.Length; i++)
+        {
+            if(data.projectile == GameManager.instance.pool.prefabs[i])
+            {
+                prefabId = i;
+                break;
+            }
+        }
+
+
         switch (id)
         {
             case 0:
