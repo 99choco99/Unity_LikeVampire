@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public Scanner scanner;
+    public RuntimeAnimatorController[] animCon;
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
@@ -19,9 +20,15 @@ public class Player : MonoBehaviour
         scanner = GetComponent<Scanner>();
     }
 
+    private void OnEnable()
+    {
+        anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
+    }
+
 
     void Update()
     {
+        if (!GameManager.instance.isLive) { return; }
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
     }
@@ -29,13 +36,14 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        if (!GameManager.instance.isLive) { return; }
         //3. 위치 이동
         Vector2 nextVec = inputVec.normalized * speed *Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
     void LateUpdate()
     {
+        if (!GameManager.instance.isLive) { return; }
         anim.SetFloat("Speed", inputVec.magnitude);
 
         if (inputVec.x != 0)
@@ -44,16 +52,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.CompareTag("Enemy"))
-        {
-            GameManager.instance.health -= 1;
+        if(!GameManager.instance.isLive) { return; }
 
-            if(GameManager.instance.health < 0)
+        GameManager.instance.health -= 10 * Time.deltaTime;
+
+        if(GameManager.instance.health <= 0)
+        {
+            for(int i = 2; i < transform.childCount; i++)
             {
-                Debug.Log("게임 끝");
+                transform.GetChild(i).gameObject.SetActive(false);
             }
+
+            anim.SetTrigger("Dead");
+
+            GameManager.instance.GameOver();
         }
     }
+
 }
