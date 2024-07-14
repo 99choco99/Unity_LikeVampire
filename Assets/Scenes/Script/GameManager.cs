@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         uiLevelUp.Select(id % 2);
         Resume();
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        AudioManager.instance.PlayBgm(true);
     }
 
     public void GameOver()
@@ -56,6 +59,8 @@ public class GameManager : MonoBehaviour
         isLive = false;
         enemyCleaner.SetActive(true);
         yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
@@ -64,6 +69,8 @@ public class GameManager : MonoBehaviour
     {
         isLive = false;
         yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
@@ -88,7 +95,7 @@ public class GameManager : MonoBehaviour
     public void GetExp()
     {
         if (!isLive) { return; }
-        exp+= 30;
+        exp += 1;
         if(exp > nextExp[Mathf.Min(level,nextExp.Length-1)])
         {
             exp = 0;
